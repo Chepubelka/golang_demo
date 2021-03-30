@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
-	"os"
+	"path"
 
 	_ "github.com/lib/pq"
 )
@@ -27,30 +27,30 @@ func main() {
 func ShowUsers(w http.ResponseWriter, r *http.Request) {
 	users := getUsers()
 
-	tmpl := `
-	<table>{{range $y, $x := . }}
-	  <tr>
-		<td>{{ $x.ID }}</td>
-		<td>{{ $x.Name }}</td>
-		<td>{{ $x.Test }}</td>
-	  </tr>{{end}}
-	</table>`
-	t := template.Must(template.New("tmpl").Parse(tmpl))
+	/* 	tmpl := `
+	   	<table>{{range $y, $x := . }}
+	   	  <tr>
+	   		<td>{{ $x.ID }}</td>
+	   		<td>{{ $x.Name }}</td>
+	   		<td>{{ $x.Test }}</td>
+	   	  </tr>{{end}}
+	   	</table>`
+	   	t := template.Must(template.New("tmpl").Parse(tmpl))
 
-	err := t.Execute(os.Stdout, users)
-	if err != nil {
-		fmt.Println("executing template:", err)
-	}
-	/* 	fp := path.Join("templates", "index.html")
-	   	tmpl, err := template.ParseFiles(fp)
+	   	err := t.Execute(os.Stdout, users)
 	   	if err != nil {
-	   		http.Error(w, err.Error(), http.StatusInternalServerError)
-	   		return
-	   	}
-
-	   	if err := tmpl.Execute(w, users); err != nil {
-	   		http.Error(w, err.Error(), http.StatusInternalServerError)
+	   		fmt.Println("executing template:", err)
 	   	} */
+	fp := path.Join("templates", "index.html")
+	tmpl, err := template.ParseFiles(fp)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if err := tmpl.Execute(w, users); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 }
 
 func getUsers() []User {
