@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"encoding/base64"
 	"fmt"
 	"html/template"
 	"net/http"
@@ -26,21 +27,6 @@ func main() {
 
 func ShowUsers(w http.ResponseWriter, r *http.Request) {
 	users := getUsers()
-
-	/* 	tmpl := `
-	   	<table>{{range $y, $x := . }}
-	   	  <tr>
-	   		<td>{{ $x.ID }}</td>
-	   		<td>{{ $x.Name }}</td>
-	   		<td>{{ $x.Test }}</td>
-	   	  </tr>{{end}}
-	   	</table>`
-	   	t := template.Must(template.New("tmpl").Parse(tmpl))
-
-	   	err := t.Execute(os.Stdout, users)
-	   	if err != nil {
-	   		fmt.Println("executing template:", err)
-	   	} */
 	fp := path.Join("templates", "index.html")
 	tmpl, err := template.ParseFiles(fp)
 	if err != nil {
@@ -72,6 +58,7 @@ func getUsers() []User {
 			fmt.Println(err)
 			continue
 		}
+		user.Blob = base64.StdEncoding.EncodeToString([]byte(user.Blob))
 		users = append(users, user)
 	}
 	return users

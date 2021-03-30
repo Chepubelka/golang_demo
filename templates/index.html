@@ -1,4 +1,52 @@
-{{range .users}} 
-   <p id="twt">{{ $.Id }}<br><br></p>
-   <button type="submit" id="xbutton" name="xdel" value="">Delete</button>
-{{end}}
+<html>
+
+<head>
+   <title>Users</title>
+   <meta>
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+   </meta>
+</head>
+
+<body>
+   <div class="container mt-5 border">
+      <h2>Users</h2>
+      <table class="table table-hover m-2">
+         <thead class="thead-dark">
+            <tr>
+               <th scope="col">ID</th>
+               <th scope="col">Date</th>
+               <th scope="col">VerifyMode</th>
+               <th scope="col">Name</th>
+               <th scope="col">PicturesCount</th>
+               <th scope="col">Picture</th>
+            </tr>
+         </thead>
+         <tbody>
+            {{range .}}
+            <tr>
+               <th>{{ .Id }}</th>
+               <th>{{ .Date }}</th>
+               <th>{{ .VerifyMode }}</th>
+               <th>{{ .Name }}</th>
+               <th>{{ .PicturesCount }}</th>
+               <th><img src="data:image/png;base64,{{ .Blob }}" alt="picture" width="120" height="200" class="img-thumbnail"></th>
+            </tr>
+            {{end}}
+         </tbody>
+      </table>
+      <div class="m-3">
+         <form action="">
+            <button type="submit" class="btn btn-primary">Refresh</button>
+         </form>
+      </div>
+   </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+   integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"
+   integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js"
+   integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
+
+</html>
