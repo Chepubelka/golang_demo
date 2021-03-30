@@ -1,0 +1,7 @@
+{
+    "username" : "postgres",
+    "password" : "",
+    "host" : "127.0.0.1",
+    "dbname" : "golangdb",
+    "port" : "5432"
+}

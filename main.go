@@ -5,10 +5,13 @@ import (
 	"encoding/base64"
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
+	"os"
 	"path"
 
 	_ "github.com/lib/pq"
+	"github.com/spf13/viper"
 )
 
 type User struct {
@@ -40,7 +43,19 @@ func ShowUsers(w http.ResponseWriter, r *http.Request) {
 }
 
 func getUsers() []User {
-	connStr := "user=postgres host=127.0.0.1 password=XGalHeg7 dbname=golangdb sslmode=disable port=5432"
+	viper.SetConfigFile("config.json")
+	err := viper.ReadInConfig()
+	if err != nil {
+		fmt.Println("fatal error config file: default \n", err)
+		os.Exit(1)
+	}
+	username := viper.GetString("username")
+	password := viper.GetString("password")
+	host := viper.GetString("host")
+	dbname := viper.GetString("dbname")
+	port := viper.GetString("port")
+	connStr := fmt.Sprintf("user=%s password=%s host=%s dbname=%s sslmode=disable port=%s", username, password, host, dbname, port)
+	log.Print("conn - ", connStr)
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		panic(err)
